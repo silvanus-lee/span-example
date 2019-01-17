@@ -5,10 +5,8 @@ train "pipeline_name_for_reference_within_span_config" {
     script = ["python3 train.py"]
 
     environment {
-        DATABASE_URL = "mydb://user:pass@example.com/db"
-        PARAM_1 = 10
-        PARAM_2 = true
-        PARAM_3 = "hello"
+        ALPHA = 0.5
+        L5_RATIO = 0.5
     }
 
     resources {
