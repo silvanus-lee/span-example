@@ -1,0 +1,18 @@
+sudo: required
+
+language: generic
+
+services:
+  - python3 train.py
+  - docker build -t winequality .
+  - docker run -d --rm -p 50051:50051 --name wine winequality
+  - pip3 install -r requirements-serve.txt
+  - python3 client.py
+
+
+script:
+  - docker-compose -f docker-compose.test.yml up --build
+
+branches:
+  only:
+    - master

@@ -1,6 +1,8 @@
-train "pipeline_name_for_reference_within_span_config" {
+version = "1.0"
+
+train "wine_quality_trainer" {
     image = "python:3.7"
-    install = ["pip install -r requirements.txt"]
+    install = ["pip install -r requirements-train.txt"]
     script = ["python3 train.py"]
 
     environment {
@@ -12,10 +14,20 @@ train "pipeline_name_for_reference_within_span_config" {
         cpu = 4
         memory = "8g"
     }
-    
-    meta {
-        name = "Non-unique human friendly display name in the UI which will be slugified"
-        foo = "bar"
-        arbitrary = "value"
+
+}
+
+serve "wine_quality_server" {
+    build {
+        # see https://docs.docker.com/compose/compose-file/
+        context = "."
+        expose = 50051
+        # dockerfile = "Dockerfile-alternate"
+    }
+
+    resources {
+        cpu = 2
+        memory = "4g"
+        replicas = 10
     }
 }

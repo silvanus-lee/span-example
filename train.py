@@ -4,7 +4,7 @@
 
 import os
 import warnings
-import sys
+import pickle
 
 import pandas as pd
 import numpy as np
@@ -28,7 +28,9 @@ if __name__ == "__main__":
     np.random.seed(40)
 
     # Read the wine-quality csv file (make sure you're running this from the root of MLflow!)
-    wine_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wine-quality.csv")
+    wine_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "wine-quality.csv"
+    )
     data = pd.read_csv(wine_path)
 
     # Split the data into training and test sets. (0.75, 0.25) split.
@@ -40,8 +42,8 @@ if __name__ == "__main__":
     train_y = train[["quality"]]
     test_y = test[["quality"]]
 
-    alpha = float(sys.argv[1]) if len(sys.argv) > 1 else float(os.environ.get('ALPHA', 0.5))
-    l1_ratio = float(sys.argv[2]) if len(sys.argv) > 2 else float(os.environ.get('L1_RATIO', 0.5))
+    alpha = float(os.environ.get("ALPHA", 0.5))
+    l1_ratio = float(os.environ.get("L1_RATIO", 0.5))
 
     # with mlflow.start_run():
     #     lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
@@ -75,3 +77,7 @@ if __name__ == "__main__":
     print("  RMSE: %s" % rmse)
     print("  MAE: %s" % mae)
     print("  R2: %s" % r2)
+
+    # persist the model (for demo only)
+    with open("model.pickle", "w+b") as model_file:
+        pickle.dump(lr, model_file)
