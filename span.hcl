@@ -21,7 +21,7 @@ serve "wine_quality_server" {
     build {
         # see https://docs.docker.com/compose/compose-file/
         context = "."
-        expose = 50051
+        expose = [50051]
         # dockerfile = "Dockerfile-alternate"
     }
 
