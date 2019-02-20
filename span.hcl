@@ -1,11 +1,11 @@
 version = "1.0"
 
-train "wine_quality_trainer" {
+train {
     image = "python:3.7"
     install = ["pip install -r requirements-train.txt"]
     script = ["python3 train.py"]
 
-    environment {
+    parameters {
         ALPHA = 0.5
         L5_RATIO = 0.5
     }
@@ -17,7 +17,7 @@ train "wine_quality_trainer" {
 
 }
 
-serve "wine_quality_server" {
+serve {
     build {
         # see https://docs.docker.com/compose/compose-file/
         context = "."
